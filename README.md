@@ -1,4 +1,4 @@
-![]()
+![image](image-Page-2.jpg)
 # AWS WordPress Deployment Project
 
 ## Overview
