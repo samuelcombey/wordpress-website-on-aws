@@ -92,12 +92,44 @@ service httpd restart
 
 ```bash
 #!/bin/bash
+
+# Update yum package manager
 yum update -y
+
+# Install Apache, mod_ssl, and tools
 sudo yum install -y httpd httpd-tools mod_ssl
-# ... (continue with Apache, PHP, MySQL installation)
+
+# Enable and start Apache service
+sudo systemctl enable httpd
+sudo systemctl start httpd
+
+# Enable PHP 7.4 using Amazon Linux Extras
+sudo amazon-linux-extras enable php7.4
+
+# Clean yum metadata
+sudo yum clean metadata
+
+# Install PHP and its extensions
+sudo yum install php php-common php-pear -y
+sudo yum install php-{cgi,curl,mbstring,gd,mysqlnd,gettext,json,xml,fpm,intl,zip} -y
+
+# Install MySQL repository and server
+sudo rpm -Uvh https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+sudo yum install mysql-community-server -y
+
+# Enable and start MySQL service
+sudo systemctl enable mysqld
+sudo systemctl start mysqld
+
+# Mount EFS (Elastic File System)
 echo "<efs-id>:/ /var/www/html nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0" >> /etc/fstab
 mount -a
+
+# Set ownership of web directory
 chown apache:apache -R /var/www/html
+
+# Restart Apache service
 sudo service httpd restart
 ```
 
