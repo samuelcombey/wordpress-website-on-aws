@@ -38,7 +38,7 @@ This project deploys a WordPress site on AWS, utilizing various resources for hi
 
 ## Deployment Scripts
 
-### Install WordPress Script
+![Install WordPress Script](install-wordpress.sh)
 
 ```bash
 # Create the html directory and mount the EFS to it
